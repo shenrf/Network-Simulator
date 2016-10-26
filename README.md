@@ -22,6 +22,7 @@ Implementing a Network Simulator Project for CS 143.
 + Destination Port: 16 bits
 + Sequence Number: 32 bits
 + Acknoweledgement Number: 32 bits
++ and so on, for detail, please refer to http://www.freesoft.org/CIE/Course/Section4/8.htm
  
  
  
