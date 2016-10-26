@@ -15,9 +15,9 @@ Implementing a Network Simulator Project for CS 143.
 	
 	 	
 ###4.Packets :   
-+ Units of data that are sent through the network
-+ Since we are implementing a TCP protocol, the packets follow TCP packet regulation:
-+ The TCP headers are:
+1. Units of data that are sent through the network
+⋅⋅*  Since we are implementing a TCP protocol, the packets follow TCP packet regulation:
+⋅⋅* The TCP headers are:
 ⋅⋅*  Source Port: 16bits
 ⋅⋅*  Destination Port: 16 bits
 ⋅⋅*  Sequence Number: 32 bits
