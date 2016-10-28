@@ -1,5 +1,5 @@
 # Network Simulator
-![Alt text](/img.jpg)
+![Alt text](img.jpg)
 Implementing a Network Simulator Project for CS 143.
 
 ## Components
