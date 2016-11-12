@@ -7,7 +7,7 @@ class Flow:
         -destination = be the destination of each packets;
         -size = be the data amount in bytes that we send the packets;
         -start = the start time of the flow process
-	"""
+        """
     num=0
     def __init__(self, flowObject):
         num=0
@@ -16,7 +16,7 @@ class Flow:
         self.destination = None
         self.size = flowObject['amount']
         self.start_time = flowObject['start']
-
+    
     def __str__(self):
         return ('Flow that coming from' + self.source + 'to: ' + self.destination)
     def runTime(self):
@@ -42,19 +42,19 @@ class Flow:
         assert isinstance(packet, Ack_Packet)
         assert packet.source == self.source
         assert packet.destination == self.destination
-
+    
     if __name__ == "__main__":
         print ("Hi")
-       # jsonObject=json.load(file('testcase1.json'))
-       # flow={}
-       # for l in jsonObject['flows']:
-       #     flow[l['id']]=Flow(l)
-       # l1=fow.get('F1')
-   
+# jsonObject=json.load(file('testcase1.json'))
+# flow={}
+# for l in jsonObject['flows']:
+#     flow[l['id']]=Flow(l)
+# l1=fow.get('F1')
+
 
 # we have 2 types of packets:
 #     1) data_packet, which sends data
-#     2) Ack_packet, which sends the acknlowedge data 
+#     2) Ack_packet, which sends the acknlowedge data
 
 class Data_Packet:
     def __init__(self, packet_id, flow_id, source, destination, data_size):
@@ -70,6 +70,8 @@ class Data_Packet:
         temp=Ack_Packet(self.flow_id,packet_num, self.id, self.source, self.destination, self.size)
         packet_num=packet_num+1
         return temp
+
+
 class Ack_Packet:
     def __init__(self,flow_id,data_packet_id,packet_id, source, destination, data_size):
         self.flow_id=flow_id
@@ -78,26 +80,34 @@ class Ack_Packet:
         self.source=source
         self.destination=destination
         self.size=data_size
+
+class Router_Packet:
+    def __init__(self, delay, source, size):
+        self.delay=delay
+        self.source=source
+        self.size=size
+
+
 =======
-	"""  
-	    -id is the identifier of the flow object;
-	    -source would be node that send outs the packets;
-	    -destination would be the destination of each packets;
-	    -amount would be the data amount in bytes that we send the packets;
-	    -start is the start time of the flow process
-	
-	"""
-	def __init__(self,flowObject):
-		self.id=flowObject['id']
-		self.source=flowObject['source']
-		self.destination=flowObject['destination']
-		self.amount=flowObject['amount']
-		self.start=flowObject['start']
-	def runTime(self):
-		return str(self.start)
+    """
+        -id is the identifier of the flow object;
+        -source would be node that send outs the packets;
+        -destination would be the destination of each packets;
+        -amount would be the data amount in bytes that we send the packets;
+        -start is the start time of the flow process
+        
+        """
+            def __init__(self,flowObject):
+                self.id=flowObject['id']
+                self.source=flowObject['source']
+                self.destination=flowObject['destination']
+                self.amount=flowObject['amount']
+                self.start=flowObject['start']
+                    def runTime(self):
+                        return str(self.start)
 
 class Packet:
-	def __init__(self,size):
-		self.size=size
-		
+    def __init__(self,size):
+        self.size=size
+
 >>>>>>> origin/master
