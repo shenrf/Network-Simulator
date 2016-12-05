@@ -18,7 +18,9 @@ class CongestionControllerFast():
 		self.last_ack_received = -1 #packet id
 		self.window_start = 0 # id for the first packet in window
 		self.retransmit = False
+		self.fastrecovery = False
 		self.flow = None
+		self.ssthresh = None
 		self.wake_event = None
 		self.event_scheduler = None
 		clock = None
@@ -36,11 +38,23 @@ class CongestionControllerFast():
 		if packet.next_id == self.last_ack_received:
 			self.dup_count += 1
 			keys= [key for key in self.no_ack.keys() if key[0] == packet.next_id]
-			# 3 duplicate ack and packet has not been received, re-send
+			# 3 duplicate ack and packet has not been received, get into fastrecovery state.
 			if (self.dup_count == 3) and (len(keys) > 0):
-				expected = keys[0]
-				del self.no_ack[(packet.next_id, expected[1])]
-				self.timed_out.append((packet.next_id,expected[1]))
+				self.cwnd /= 2
+				self.ssthresh = self.cwnd
+				self.cwnd += 3
+				self.fastrecovery = True
+				self.cwnd += 1
+				if packet.next_id == self.last_received_ack:
+					self.dup_count += 1
+					self.wake_event = self.event_scheduler.put_event(self.timeout, FlowWakeEvent(self.flow))
+					return
+				else:
+					if packet.id == self.FR_packet:
+						self.cwnd = self.ssthresh
+						self.state = congestion_avoidance
+					self.dup_count = 0
+
 		# not a duplicate ack
 		else:
 			self.dup_count = 0
@@ -80,6 +94,7 @@ class CongestionControllerFast():
 			print len(self.timed_out)
 			a = input("check timed out packet ack_receive")
 			self.retransmit = True
+			self.ssthresh = self.cwnd/2
 			self.cwnd /= 2
 			print "cwnd/2 ackreceive cwnd/2 ackreceive cwnd/2 ackreceive"
 			print self.cwnd
